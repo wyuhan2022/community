@@ -1,0 +1,36 @@
+package com.yuhan.community.util;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.DigestUtils;
+
+import java.util.UUID;
+
+/**
+ * @author yuhan
+ * @create 2022-07-24 16:36
+ */
+
+public class CommunityUtil {
+    /**
+     * 生成随机字符串
+     * @return
+     */
+    public static String generateUUID(){
+        return UUID.randomUUID().toString().replaceAll("-","");
+    }
+
+    /**
+     * md5加密
+     * key + salt = *******
+     * @param key
+     * @return
+     */
+    public static String md5(String key){
+        if (StringUtils.isBlank(key)){
+            return null;
+        }
+        return DigestUtils.md5DigestAsHex(key.getBytes());
+    }
+
+
+}
