@@ -102,14 +102,14 @@ public class LoginController implements CommunityConstant {
     @RequestMapping(path = "/login",method = RequestMethod.POST)
     public String login(String username, String password, String code, boolean rememberMe,
                         Model model, HttpSession session, HttpServletResponse response){
-        //
+        //检查验证码
         String kaptcha = (String) session.getAttribute("kaptcha");
         if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)){
             model.addAttribute("codeMsg","验证码错误");
             return "/site/login";
         }
 
-        //
+        //检查账号、密码、状态
         int expiredSeconds = rememberMe ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;
         Map<String, Object> map = userService.login(username, password, expiredSeconds);
         if (map.containsKey("ticket")) {
