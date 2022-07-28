@@ -44,12 +44,26 @@ public class LoginController implements CommunityConstant {
     @Value("${server.servlet.context-path}")
     public String contextPath;
 
+    /**
+     * 访问注册页面
+     * @return
+     */
     @RequestMapping(path = "/register",method = RequestMethod.GET)
     public String getRegisterPage(){ return "/site/register";}
 
+    /**
+     * 访问登录页面
+     * @return
+     */
     @RequestMapping(path = "/login",method = RequestMethod.GET)
     public String getLoginPage(){ return "/site/login";}
 
+    /**
+     * 注册用户
+     * @param model
+     * @param user
+     * @return
+     */
     @RequestMapping(path = "/register",method = RequestMethod.POST)
     public String register(Model model, User user){
         Map<String, Object> map = userService.register(user);
@@ -65,6 +79,13 @@ public class LoginController implements CommunityConstant {
         }
     }
 
+    /**
+     * 激活用户
+     * @param model
+     * @param userId
+     * @param code
+     * @return
+     */
     @RequestMapping(path = "/activation/{userId}/{code}",method = RequestMethod.GET)
     public String activation(Model model, @PathVariable("userId") int userId, @PathVariable("code") String code){
         int result = userService.activateUser(userId, code);
@@ -81,6 +102,11 @@ public class LoginController implements CommunityConstant {
         return "/site/operate-result";
     }
 
+    /**
+     * 生成验证码
+     * @param response
+     * @param session
+     */
     @RequestMapping(path = "/kaptcha",method = RequestMethod.GET)
     public void getKaptcha(HttpServletResponse response, HttpSession session){
         // 生成验证码
@@ -99,6 +125,17 @@ public class LoginController implements CommunityConstant {
         }
     }
 
+    /**
+     * 用户登录
+     * @param username
+     * @param password
+     * @param code
+     * @param rememberMe
+     * @param model
+     * @param session
+     * @param response
+     * @return
+     */
     @RequestMapping(path = "/login",method = RequestMethod.POST)
     public String login(String username, String password, String code, boolean rememberMe,
                         Model model, HttpSession session, HttpServletResponse response){
@@ -125,6 +162,11 @@ public class LoginController implements CommunityConstant {
         }
     }
 
+    /**
+     * 用户退出
+     * @param ticket
+     * @return
+     */
     @RequestMapping(path = "/logout",method = RequestMethod.GET)
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);

@@ -46,12 +46,24 @@ public class UserController {
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
+
+    /**
+     * 访问设置页面
+     * @return
+     */
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
     @LoginRequired
     public String getSettingPage(){
         return "/site/setting";
     }
 
+
+    /**
+     * 上传头像
+     * @param headerImage
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     @LoginRequired
     public String uploadHeader(MultipartFile headerImage, Model model){
@@ -86,6 +98,11 @@ public class UserController {
         return "redirect:/index";
     }
 
+    /**
+     * 页面上获取头像
+     * @param filename
+     * @param response
+     */
     @RequestMapping(path = "/header/{filename}", method = RequestMethod.GET)
     public void getHeader(@PathVariable("filename") String filename, HttpServletResponse response){
         // 服务器存放路径

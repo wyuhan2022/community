@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 /**
+ * 配置验证码
  * @author yuhan
  * @create 2022-07-24 21:46
  */

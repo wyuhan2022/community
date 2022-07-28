@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.invoke.MethodHandle;
 
 /**
+ * 检查登录状态拦截器
  * @author yuhan
  * @create 2022-07-26 2:15
  */

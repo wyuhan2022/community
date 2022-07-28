@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
+ * 获取当前用户，显示登录信息
  * @author yuhan
  * @create 2022-07-25 20:20
  */
