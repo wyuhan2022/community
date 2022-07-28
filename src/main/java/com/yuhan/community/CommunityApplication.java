@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  *
+ * @author wangyuhan
  */
 @SpringBootApplication
 public class CommunityApplication {
