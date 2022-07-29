@@ -44,7 +44,7 @@ public class DiscussPostController implements CommunityConstant {
     public String addDiscussPost(String title, String content) {
         User user = hostHolder.getUser();
         if (user == null) {
-            return CommunityUtil.getJsonString(403, "你还没有登录！");
+            return CommunityUtil.getJSONString(403, "你还没有登录！");
         }
 
         DiscussPost discussPost = new DiscussPost();
@@ -55,7 +55,7 @@ public class DiscussPostController implements CommunityConstant {
         discussPostService.addDiscussPost(discussPost);
 
         // 报错的情况，将来统一处理。
-        return CommunityUtil.getJsonString(0, "发布成功");
+        return CommunityUtil.getJSONString(0, "发布成功");
     }
 
     @RequestMapping(path = "/detail/{discussPostId}", method = RequestMethod.GET)

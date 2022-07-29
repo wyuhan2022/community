@@ -6,6 +6,7 @@
     <sql id="insertFields">
         username, password, salt, email, type, status,activation_code, header_url, create_time
     </sql>
+
     <sql id="selectFields">
         id, username, password, salt, email, type, status,activation_code, header_url, create_time
     </sql>
