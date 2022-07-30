@@ -3,6 +3,7 @@ package com.yuhan.community.controller;
 import com.yuhan.community.annotation.LoginRequired;
 import com.yuhan.community.entity.LoginTicket;
 import com.yuhan.community.entity.User;
+import com.yuhan.community.service.LikeService;
 import com.yuhan.community.service.UserService;
 import com.yuhan.community.util.CommunityUtil;
 import com.yuhan.community.util.HostHolder;
@@ -31,19 +32,16 @@ import java.io.*;
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private LikeService likeService;
     @Autowired
     private HostHolder hostHolder;
-
     @Value("${community.path.upload}")
     private String uploadPath;
-
     @Value("${community.path.domain}")
     private String domain;
-
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
@@ -123,5 +121,27 @@ public class UserController {
         } catch (IOException e) {
             logger.error("读取头像失败：" + e.getMessage());
         }
+    }
+
+    /**
+     * 个人主页
+     * @param userId
+     * @param model
+     * @return
+     */
+    @RequestMapping(path = "/profile/{userId}", method = RequestMethod.GET)
+    public String getProfilePage(@PathVariable("userId") int userId, Model model) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("该用户不存在！");
+        }
+
+        // 用户
+        model.addAttribute("user", user);
+        // 点赞数量
+        int likeCount = likeService.findUserLikeCount(userId);
+        model.addAttribute("likeCount", likeCount);
+
+        return "/site/profile";
     }
 }
