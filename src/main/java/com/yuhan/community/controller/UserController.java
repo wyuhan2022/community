@@ -3,8 +3,10 @@ package com.yuhan.community.controller;
 import com.yuhan.community.annotation.LoginRequired;
 import com.yuhan.community.entity.LoginTicket;
 import com.yuhan.community.entity.User;
+import com.yuhan.community.service.FollowService;
 import com.yuhan.community.service.LikeService;
 import com.yuhan.community.service.UserService;
+import com.yuhan.community.util.CommunityConstant;
 import com.yuhan.community.util.CommunityUtil;
 import com.yuhan.community.util.HostHolder;
 import org.apache.commons.lang3.StringUtils;
@@ -29,13 +31,15 @@ import java.io.*;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController implements CommunityConstant {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
     @Autowired
     private LikeService likeService;
+    @Autowired
+    private FollowService followService;
     @Autowired
     private HostHolder hostHolder;
     @Value("${community.path.upload}")
@@ -141,7 +145,20 @@ public class UserController {
         // 点赞数量
         int likeCount = likeService.findUserLikeCount(userId);
         model.addAttribute("likeCount", likeCount);
-
+        // 关注数量
+        long followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);
+        model.addAttribute("followeeCount", followeeCount);
+        // 粉丝数量
+        long followerCount = followService.findFollowerCount(ENTITY_TYPE_USER, userId);
+        model.addAttribute("followerCount",followerCount);
+        // 是否已关注
+        boolean hasFollowed = false;
+        if (hostHolder.getUser() != null) {
+            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+        }
+        model.addAttribute("hasFollowed", hasFollowed);
         return "/site/profile";
     }
+
+
 }
