@@ -2,6 +2,7 @@ package com.yuhan.community.service;
 
 import com.yuhan.community.dao.CommentMapper;
 import com.yuhan.community.entity.Comment;
+import com.yuhan.community.event.EventProducer;
 import com.yuhan.community.util.CommunityConstant;
 import com.yuhan.community.util.SensitiveFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,9 @@ public class CommentService implements CommunityConstant {
         return  rows;
     }
 
+    public Comment findCommentById(int id) {
+        return commentMapper.selectCommentById(id);
+    }
 }
 
 

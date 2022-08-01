@@ -1,7 +1,9 @@
 package com.yuhan.community.controller;
 
+import com.yuhan.community.entity.Event;
 import com.yuhan.community.entity.Page;
 import com.yuhan.community.entity.User;
+import com.yuhan.community.event.EventProducer;
 import com.yuhan.community.service.FollowService;
 import com.yuhan.community.service.UserService;
 import com.yuhan.community.util.CommunityConstant;
@@ -30,6 +32,8 @@ public class FollowController implements CommunityConstant {
     @Autowired
     private UserService userService;
     @Autowired
+    private EventProducer eventProducer;
+    @Autowired
     private HostHolder hostHolder;
 
     @RequestMapping(path = "/follow", method = RequestMethod.POST)
@@ -37,6 +41,16 @@ public class FollowController implements CommunityConstant {
     public String follow(int entityType, int entityId) {
         User user = hostHolder.getUser();
         followService.follow(user.getId(), entityType, entityId);
+
+        // 触发关注事件
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
+
         return CommunityUtil.getJSONString(0, "已关注！");
     }
 
