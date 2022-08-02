@@ -50,4 +50,21 @@ public interface DiscussPostMapper {
      * @return
      */
     int updateCommentCount(int id, int commentCount);
+
+    /**
+     * 置顶
+     * @param id
+     * @param type
+     * @return
+     */
+    int updateType(int id, int type);
+
+    /**
+     * 加精
+     * @param id
+     * @param status
+     * @return
+     */
+    int updateStatus(int id, int status);
+
 }
